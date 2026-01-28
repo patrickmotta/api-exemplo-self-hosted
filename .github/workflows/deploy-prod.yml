@@ -1,0 +1,33 @@
+name: Deploy Prod
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  
+jobs:
+  deploy:
+    runs-on: [self-hosted, prod]
+    environment: prod
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Deploy prod
+        run: |
+          rsync -av -delete \
+            ./ \
+            /home/infra/projetos/api-exemplo/
+
+      - name: Restart serviço systemd
+        run: systemctl restart api-exemplo.service

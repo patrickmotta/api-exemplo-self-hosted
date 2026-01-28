@@ -30,4 +30,4 @@ jobs:
             /home/infra/projetos/api-exemplo/
 
       - name: Restart serviço systemd
-        run: sudo systemctl restart api-exemplo.service
+        run: sudo systemctl restart api-exemplo
